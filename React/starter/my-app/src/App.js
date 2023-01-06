@@ -1,26 +1,21 @@
 import React, { useState } from "react";
 import "./style.css";
 
-const LoadingButton = (props) => {
-  const { onClick, loading, label } = props;
-
-  return (
-    <button onClick={onClick} type={"button"}>
-      {loading ? <div className={"loader"}></div> : label}
-    </button>
-  );
-};
+const data = [
+  { id: 1, name: "Fido 🐕" },
+  { id: 2, name: "Snowball 🐈" },
+  { id: 3, name: "Murph 🐈‍⬛" },
+  { id: 4, name: "Zelda 🐈" },
+];
 
 function App() {
-  const [isLoading, setIsLoading] = useState(false);
-
   return (
     <>
-      <LoadingButton
-        label={"Press me"}
-        loading={isLoading}
-        onClick={() => setIsLoading(!isLoading)}
-      />
+      <ul>
+        {data.map(({ id, name }) => {
+          return <li key={id}>{name}</li>;
+        })}
+      </ul>
     </>
   );
 }
