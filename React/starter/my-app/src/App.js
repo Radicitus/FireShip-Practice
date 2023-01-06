@@ -1,24 +1,28 @@
-import React from 'react';
+import React, { useState } from "react";
+import "./style.css";
 
-function Card(props) {
-    return (
-        <section>
-            <h2>{props.icon} Title</h2>
-            {props.children}
-        </section>
-    );
+const LoadingButton = (props) => {
+  const { onClick, loading, label } = props;
+
+  return (
+    <button onClick={onClick} type={"button"}>
+      {loading ? <div className={"loader"}></div> : label}
+    </button>
+  );
+};
+
+function App() {
+  const [isLoading, setIsLoading] = useState(false);
+
+  return (
+    <>
+      <LoadingButton
+        label={"Press me"}
+        loading={isLoading}
+        onClick={() => setIsLoading(!isLoading)}
+      />
+    </>
+  );
 }
 
-function MyIcon() {
-    return <i>🔥</i>
-}
-
-export default function App() {
-    return (
-        <div>
-            <Card icon={<MyIcon/>}>
-                <p>The body of the card</p>
-            </Card>
-        </div>
-    );
-}
+export default App;
