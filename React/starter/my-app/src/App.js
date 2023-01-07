@@ -1,34 +1,39 @@
-import React, { useContext, createContext, useState } from "react";
+import React from "react";
 import "./style.css";
 
-const CountContext = createContext();
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    // Change to true to enable error
+    this.state = { hasError: true };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch(err, errInfo) {
+    console.log("something went horribly wrong", err, errInfo);
+  }
 
-function CountProvider({ children }) {
-  const [count, setCount] = useState(0);
-
-  return (
-    <CountContext.Provider value={{ count, setCount }}>
-      {children}
-    </CountContext.Provider>
-  );
-}
-
-function Count() {
-  const { count } = useContext(CountContext);
-  return <h3>{`Current count: ${count}`}</h3>;
-}
-
-function CountButton() {
-  const { count, setCount } = useContext(CountContext);
-  return <button onClick={() => setCount(count + 1)}>Increment</button>;
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="error-boundary">
+          <h3>Fallback UI</h3>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
 }
 
 function App() {
   return (
-    <CountProvider>
-      <Count />
-      <CountButton />
-    </CountProvider>
+    <div>
+      <h3>Outside the error boundary</h3>
+      <ErrorBoundary>
+        <h3>Inside the error boundary</h3>
+      </ErrorBoundary>
+    </div>
   );
 }
 
